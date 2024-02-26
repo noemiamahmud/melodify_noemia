@@ -9,7 +9,7 @@ from keras.utils import to_categorical
 #from keras.utils import np_utils
 
 songs = []
-folder = Path(r"C:\Users\mayav\Downloads\archive")
+folder = Path("./archive")
 for file in folder.rglob('*.mid'):
   songs.append(file)
 #for song in songs:
