@@ -1,0 +1,56 @@
+<html>
+  <body>
+    <div id="app"></div>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Babel Script -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/jsx">
+      const domNode = document.getElementById('app');
+      function Header({ title, description }) {
+        console.log(title);
+        return (
+          <div>
+            <h1>{title}</h1>
+            <p>{description}</p>
+          </div>
+        );
+      }
+      function HomePage() {
+        const [inputText, setInputText] = React.useState('');
+        const [items, setItems] = React.useState([]);
+      
+        function handleCreate() {
+          if (inputText.trim() !== '') {
+            setItems([...items, inputText]);
+            setInputText('');
+          }
+        }
+      
+        function handleChange(event) {
+          setInputText(event.target.value);
+        }
+      
+        return (
+          <div>
+            <Header title="Melodify" description="Melodify is an AI music generating chat bot." />
+            <ul>
+              {items.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
+            </ul>
+            <input
+              type="text"
+              value={inputText}
+              onChange={handleChange}
+              placeholder="Enter Keywords"
+            />
+            <button onClick={handleCreate}>Create</button>
+          </div>
+        );
+      }
+      const root = ReactDOM.createRoot(app);
+      root.render(<HomePage />);
+    </script>
+  </body>
+</html>
