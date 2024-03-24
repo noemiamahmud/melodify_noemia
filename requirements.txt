@@ -27,3 +27,4 @@ torchmetrics
 encodec
 protobuf
 streamlit
+python-dotenv
