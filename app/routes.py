@@ -4,15 +4,13 @@ import json
 from dotenv import load_dotenv
 
 
-bp = Blueprint("pages", __name__)
+bp = Blueprint('pages', __name__)
 
 @bp.route("/", methods=["GET","POST"])
-def process_data():
-    if (request.method == "POST"):
-        input_text = request.form['inputText']  # Access the inputText field from form data
-        # Now you can process the input_text as needed
-        print('Received input:', input_text)
-        # You can return a response if needed
-        return 'Data received successfully'
-
+def createMusic():
+    if request.method == 'POST':
+        textInput = request.form['textInput']
+        print(textInput)
+        
+    return render_template('index.html')
 

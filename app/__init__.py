@@ -41,17 +41,32 @@ def create_app(test_config=None):
     app.register_blueprint(auth.bp)
 
     return app
+'''
+    @app.route('/submit', methods=['POST'])
+    def submit():
+        if request.method == 'POST':
+            data = request.form['data']
+            return 'Data recieved: ' + data
+        else:
+            return 'Method not allowed', 405
+            '''
 
-def process_data():
-    if(request.method == "POST"):
-        input_text = request.form['inputText']  # Access the inputText field from form data
-        # Now you can process the input_text as needed
-        print('Received input:', input_text)
-        # You can return a response if needed
-        return 'Data received successfully'
+
 
 if __name__=="__main__":
     app = create_app()
 
     app.run(host=os.getenv('IP', '0.0.0.0'), 
             port=int(os.getenv('PORT', 8888)))
+    
+'''
+    @app.route('/process_data', methods=['POST'])
+    def process_data():
+        if (request.method == "POST"):
+            input_text = request.form['inputText']  # Access the inputText field from form data
+            # Now you can process the input_text as needed
+            print('Received input:', input_text)
+            # You can return a response if needed
+            return 'Data received successfully'
+            '''
+    
