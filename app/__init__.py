@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, render_template
 
 from app import routes
 
@@ -30,6 +30,10 @@ def create_app(test_config=None):
         pass
 
     # a simple page that says hello
+    @app.route('/')
+    def new_page():
+        return render_template('index.html')
+    
     from . import db
     db.init_app(app)
 
