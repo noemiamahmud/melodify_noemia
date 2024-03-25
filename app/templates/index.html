@@ -138,6 +138,7 @@
         return (
           <div>
             <Header title="Melodify" description="Melodify is an AI music generating chat bot." />
+            <form method="post">
             <ul>
               {items.map((item, index) => (
                 <li key={index}>{item}</li>
@@ -155,6 +156,7 @@
                 <KeywordBox key={index} keyword={item} />
               ))}
             </div>
+          </form>
           </div>
         );
       }
