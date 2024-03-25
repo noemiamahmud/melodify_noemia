@@ -40,6 +40,9 @@ def create_app(test_config=None):
     from . import auth
     app.register_blueprint(auth.bp)
 
+    from . import music
+    app.register_blueprint(music.bp)
+
     return app
 
 def process_data():
