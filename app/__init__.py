@@ -32,7 +32,8 @@ def create_app(test_config=None):
     # a simple page that says hello
     @app.route('/')
     def new_page():
-        return render_template('index.html')
+        #return render_template('pages/index.html')
+        return render_template('pages/test.html')
     
     from . import db
     db.init_app(app)
@@ -40,8 +41,11 @@ def create_app(test_config=None):
     from . import auth
     app.register_blueprint(auth.bp)
 
-    from . import music
-    app.register_blueprint(music.bp)
+    #from .import routes
+    #app.register_blueprint(routes.bp)
+
+    #from . import music
+    #app.register_blueprint(music.bp)
 
     return app
 '''
