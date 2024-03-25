@@ -1,49 +1,26 @@
-import os
+# Copyright (c) Meta Platforms, Inc. and affiliates.
+# All rights reserved.
+#
+# This source code is licensed under the license found in the
+# LICENSE file in the root directory of this source tree.
+"""
+AudioCraft is a general framework for training audio generative models.
+At the moment we provide the training code for:
 
-from flask import Flask, render_template
+- [MusicGen](https://arxiv.org/abs/2306.05284), a state-of-the-art
+    text-to-music and melody+text autoregressive generative model.
+    For the solver, see `audiocraft.solvers.musicgen.MusicGenSolver`, and for the model,
+    `audiocraft.models.musicgen.MusicGen`.
+- [AudioGen](https://arxiv.org/abs/2209.15352), a state-of-the-art
+    text-to-general-audio generative model.
+- [EnCodec](https://arxiv.org/abs/2210.13438), efficient and high fidelity
+    neural audio codec which provides an excellent tokenizer for autoregressive language models.
+    See `audiocraft.solvers.compression.CompressionSolver`, and `audiocraft.models.encodec.EncodecModel`.
+- [MultiBandDiffusion](TODO), alternative diffusion-based decoder compatible with EnCodec that
+    improves the perceived quality and reduces the artifacts coming from adversarial decoders.
+"""
 
-from app import routes
+# flake8: noqa
+from . import data, modules, models
 
-
-def create_app(test_config=None):
-    # create and configure the app
-    app = Flask(__name__, instance_relative_config=True)
-
-    app.register_blueprint(routes.bp)
-
-    app.config.from_mapping(
-        SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'app.sqlite'),
-    )
-
-    if test_config is None:
-        # load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config.py', silent=True)
-    else:
-        # load the test config if passed in
-        app.config.from_mapping(test_config)
-
-    # ensure the instance folder exists
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        pass
-
-    # a simple page that says hello
-    @app.route('/')
-    def new_page():
-        return render_template('index.html')
-    
-    from . import db
-    db.init_app(app)
-
-    from . import auth
-    app.register_blueprint(auth.bp)
-
-    return app
-
-if __name__=="__main__":
-    app = create_app()
-
-    app.run(host=os.getenv('IP', '0.0.0.0'), 
-            port=int(os.getenv('PORT', 8888)))
+__version__ = '1.3.0a1'
