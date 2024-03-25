@@ -134,6 +134,31 @@
         function handleChange(event) {
           setInputText(event.target.value);
         }
+
+        function handleSubmit(event) {
+          event.preventDefault(); // Prevent the default form submission behavior
+          
+          // Fetch input value
+          const inputValue = document.getElementById('inputField').value;
+        
+          // Make a POST request to your Flask backend
+          fetch('/process_data', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: inputValue
+          })
+          .then(response => {
+            // Handle response
+            console.log('Data sent successfully');
+          })
+          .catch(error => {
+            // Handle error
+            console.error('Error:', error);
+          });
+        }
+
       
         return (
           <div>
@@ -145,6 +170,7 @@
               ))}
             </ul>
             <input
+              id="inputField"
               type="text"
               value={inputText}
               onChange={handleChange}
