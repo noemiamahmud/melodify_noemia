@@ -43,11 +43,12 @@ def create_app(test_config=None):
     return app
 
 def process_data():
-    input_text = request.form['inputText']  # Access the inputText field from form data
-    # Now you can process the input_text as needed
-    print('Received input:', input_text)
-    # You can return a response if needed
-    return 'Data received successfully'
+    if(request.method == "POST"):
+        input_text = request.form['inputText']  # Access the inputText field from form data
+        # Now you can process the input_text as needed
+        print('Received input:', input_text)
+        # You can return a response if needed
+        return 'Data received successfully'
 
 if __name__=="__main__":
     app = create_app()
