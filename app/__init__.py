@@ -33,7 +33,7 @@ def create_app(test_config=None):
     @app.route('/')
     def new_page():
         #return render_template('pages/index.html')
-        return render_template('pages/test.html')
+        return render_template('pages/index.html')
     
     from . import db
     db.init_app(app)

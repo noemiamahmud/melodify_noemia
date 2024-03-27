@@ -1,185 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
- <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Melodify - AI Music Generating Chat Bot</title>
-   <style>
-     body {
-       font-family: Workbench, Workbench;
-       background-color: #000000;
-       margin: 0;
-       padding: 0;
-     }
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Melodify - AI Music Generating Chat Bot</title>
+ <style>
+   body {
+     font-family: Workbench, Workbench;
+     background-color: #000000;
+     margin: 0;
+     padding: 0;
+   }
 
 
-     #app {
-       max-width: 600px;
-       margin: 20px auto;
-       padding: 20px;
-       background-color: #fff;
-       border-radius: 8px;
-       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-     }
+   #app {
+     max-width: 600px;
+     margin: 20px auto;
+     padding: 20px;
+     background-color: #fff;
+     border-radius: 8px;
+     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   }
 
 
-     h1 {
-       color: #333;
-     }
+   h1 {
+     color: #333;
+   }
 
 
-     p {
-       color: #666;
-     }
+   p {
+     color: #666;
+   }
 
 
-     ul {
-       list-style-type: none;
-       padding: 0;
-     }
+   ul {
+     list-style-type: none;
+     padding: 0;
+   }
 
 
-     li {
-       margin-bottom: 5px;
-     }
+   li {
+     margin-bottom: 5px;
+   }
 
 
-     input[type="text"] {
-       width: 100%;
-       padding: 8px;
-       margin-bottom: 10px;
-       border: 1px solid #ccc;
-       border-radius: 4px;
-       box-sizing: border-box;
-     }
+   input[type="text"] {
+     width: 100%;
+     padding: 8px;
+     margin-bottom: 10px;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+     box-sizing: border-box;
+   }
 
 
-     button {
-       padding: 10px 20px;
-       background-color: #000000;
-       color: #fff;
-       border: none;
-       border-radius: 4px;
-       cursor: pointer;
-       transition: background-color 0.3s ease;
-     }
+   button {
+     padding: 10px 20px;
+     background-color: #000000;
+     color: #fff;
+     border: none;
+     border-radius: 4px;
+     cursor: pointer;
+     transition: background-color 0.3s ease;
+   }
 
 
-     button:hover {
-       background-color: #55ffb8;
-     }
+   button:hover {
+     background-color: #55ffb8;
+   }
 
 
-     .keyword-box {
-       background-color: #ffffff;
-       padding: 10px;
-       margin-top: 20px;
-       border-radius: 4px;
-     }
-   #photos-bio {
-   position: relative;
-   width: 840px; /* Adjust as needed */
-   height: 150px; /* Adjust as needed */
+   .keyword-box {
+     background-color: #ffffff;
+     padding: 10px;
+     margin-top: 20px;
+     border-radius: 4px;
+   }
+ </style>
+</head>
+<body>
+<div id="app">
+ <div id="header">
+   <h1>Melodify</h1>
+   <p>Melodify is an AI music generating chat bot.</p>
+ </div>
+ <ul id="items"></ul>
+ <form method="POST">
+ <input name="userInput" type="text" id="inputText" placeholder="Enter Keywords">
+ <button onclick="handleCreate()">Create</button>
+</form>
+</div>
+
+
+<script>
+ const items = [];
+ const inputText = document.getElementById('inputText');
+ const itemsList = document.getElementById('items');
+
+
+ function renderItems() {
+   itemsList.innerHTML = '';
+   items.forEach((item, index) => {
+     const li = document.createElement('li');
+     li.textContent = item;
+     itemsList.appendChild(li);
+   });
  }
 
 
- .text-overlay {
-   position: absolute;
-   top: 30%; /* Adjust vertically as needed */
-   left: 50%; /* Adjust horizontally as needed */
-   transform: translate(-50%, -50%);
-   text-align: center; /* Optional: center align text */
-   color: rgb(255, 0, 0); /* Optional: set text color */
+ function handleCreate() {
+   const text = inputText.value.trim();
+   if (text !== '') {
+     items.push(text);
+     renderItems();
+     inputText.value = '';
+   }
  }
-   </style>
- </head>
- <body>
-   <div id="photos-bio">
-     <img src="/app/templates/background_black.jpg" width="840" height="150">
-     <div class="text-overlay">
-       <h2>Melodify</h2>
-     </div>
-   </div>
-   <div id="photos-bio">
-     <img src="/app/templates/placeholder.jpg" width="100" height="100">
-     <h2>Your Name</h2>
-     <p>Bio - TODO</p>
-   </div>
-   <div id="app"></div>
-   <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-   <!-- Babel Script -->
-   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-   <script type="text/jsx">
-     const domNode = document.getElementById('app');
-    
-     function KeywordBox({ keyword }) {
-       return (
-         <div className="keyword-box">
-           {keyword}
-         </div>
-       );
-     }
-
-
-     function Header({ title, description }) {
-       return (
-         <div>
-           <h1>{title}</h1>
-           <p>{description}</p>
-         </div>
-       );
-     }
-
-
-     function HomePage() {
-       const [inputText, setInputText] = React.useState('');
-       const [items, setItems] = React.useState([]);
-    
-       function handleCreate() {
-         if (inputText.trim() !== '') {
-           setItems([...items, inputText]);
-           setInputText('');
-         }
-       }
-    
-       function handleChange(event) {
-         setInputText(event.target.value);
-       }
-    
-       return (
-         <div>
-           <Header title="Melodify" description="Melodify is an AI music generating chat bot." />
-           <ul>
-             {items.map((item, index) => (
-               <li key={index}>{item}</li>
-             ))}
-           </ul>
-           <form method="POST">
-           <input
-           name = "userInput"
-             type="text"
-             value={inputText}
-             onChange={handleChange}
-             placeholder="Enter Keywords"
-           />
-          </form>
-           <button onClick={handleCreate}>Create</button>
-           <div className="keyword-box">
-             {items.map((item, index) => (
-               <KeywordBox key={index} keyword={item} />
-             ))}
-           </div>
-         </div>
-         {% if user_input != "" %}
-          <div>
-            <h3>{{"1. " + user_input}}</h3>
-          </div>
-        {% endif %}
-       );
-     }
-     const root = ReactDOM.createRoot(app);
-     root.render(<HomePage />);
-   </script>
- </body>
+</script>
+</body>
 </html>
