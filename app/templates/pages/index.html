@@ -1,121 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Melodify - AI Music Generating Chat Bot</title>
- <style>
-   body {
-     font-family: Workbench, Workbench;
-     background-color: #000000;
-     margin: 0;
-     padding: 0;
-   }
-
-
-   #app {
-     max-width: 600px;
-     margin: 20px auto;
-     padding: 20px;
-     background-color: #fff;
-     border-radius: 8px;
-     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-   }
-
-
-   h1 {
-     color: #333;
-   }
-
-
-   p {
-     color: #666;
-   }
-
-
-   ul {
-     list-style-type: none;
-     padding: 0;
-   }
-
-
-   li {
-     margin-bottom: 5px;
-   }
-
-
-   input[type="text"] {
-     width: 100%;
-     padding: 8px;
-     margin-bottom: 10px;
-     border: 1px solid #ccc;
-     border-radius: 4px;
-     box-sizing: border-box;
-   }
-
-
-   button {
-     padding: 10px 20px;
-     background-color: #000000;
-     color: #fff;
-     border: none;
-     border-radius: 4px;
-     cursor: pointer;
-     transition: background-color 0.3s ease;
-   }
-
-
-   button:hover {
-     background-color: #55ffb8;
-   }
-
-
-   .keyword-box {
-     background-color: #ffffff;
-     padding: 10px;
-     margin-top: 20px;
-     border-radius: 4px;
-   }
- </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Music Generator</title>
 </head>
 <body>
-<div id="app">
- <div id="header">
-   <h1>Melodify</h1>
-   <p>Melodify is an AI music generating chat bot.</p>
- </div>
- <ul id="items"></ul>
- <form method="POST">
- <input name="userInput" type="text" id="inputText" placeholder="Enter Keywords">
- <button onclick="handleCreate()">Create</button>
-</form>
-</div>
+    <h1>Text to Music Generator 🎵</h1>
 
+    <div>
+        <label for="description">Enter your description:</label><br>
+        <textarea id="description" name="description" rows="4" cols="50"></textarea>
+    </div>
 
-<script>
- const items = [];
- const inputText = document.getElementById('inputText');
- const itemsList = document.getElementById('items');
+    <div>
+        <label for="duration">Select time duration (in seconds):</label><br>
+        <input type="range" id="duration" name="duration" min="0" max="20" value="10"><br>
+        <span id="durationValue">10</span>
+    </div>
 
+    <button onclick="generateMusic()">Generate Music</button>
 
- function renderItems() {
-   itemsList.innerHTML = '';
-   items.forEach((item, index) => {
-     const li = document.createElement('li');
-     li.textContent = item;
-     itemsList.appendChild(li);
-   });
- }
+    <div id="musicPlayer"></div>
 
+    <script>
+        function generateMusic() {
+            var description = document.getElementById('description').value;
+            var duration = document.getElementById('duration').value;
 
- function handleCreate() {
-   const text = inputText.value.trim();
-   if (text !== '') {
-     items.push(text);
-     renderItems();
-     inputText.value = '';
-   }
- }
-</script>
+            // Send description and duration to the backend for music generation
+            fetch('/generate_music', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    description: description,
+                    duration: duration
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                var audio = document.createElement('audio');
+                audio.controls = true;
+                //document.getElementById("generatedMusic").innerText = "Your description: " + data.prompt + "\nSelected audio duration: " + data.duration + " seconds";
+                var audioPlayer = document.getElementById("audioPlayer");
+                audioPlayer.src = "/generated_audio/audio_0.wav";
+                //audioPlayer.style.display = "block";
+                //var downloadLink = document.getElementById("downloadLink");
+                //downloadLink.href = "/generated_audio/audio_0.wav";
+                //downloadLink.style.display = "block";
+                document.getElementById('musicPlayer').innerHTML = '';
+                document.getElementById('musicPlayer').appendChild(audio);
+            });
+        }
+
+            /*.then(response => response.blob())
+            .then(blob => {
+                // Create audio element to play generated music
+                var audio = document.createElement('audio');
+                audio.controls = true;
+                var url = URL.createObjectURL(blob);
+                audio.src = "generated_audio/audio_0.wav"
+                document.getElementById('musicPlayer').innerHTML = '';
+                document.getElementById('musicPlayer').appendChild(audio);
+            });
+        }*/
+
+        // Update slider value display
+        var slider = document.getElementById("duration");
+        var output = document.getElementById("durationValue");
+        output.innerHTML = slider.value;
+
+        slider.oninput = function() {
+            output.innerHTML = this.value;
+        }
+    </script>
 </body>
 </html>
+
