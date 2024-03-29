@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory
 
 from app import routes
 
@@ -10,6 +10,7 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
 
     app.register_blueprint(routes.bp)
+    app.static_folder = "../generated_audio"
 
     app.config.from_mapping(
         SECRET_KEY='dev',
@@ -34,6 +35,9 @@ def create_app(test_config=None):
     def new_page():
         #return render_template('pages/index.html')
         return render_template('pages/index.html')
+    @app.route('/audio/<path:filename>')
+    def serve_audio(filename):
+        return send_from_directory(app.static_folder, filename)
     
     from . import db
     db.init_app(app)

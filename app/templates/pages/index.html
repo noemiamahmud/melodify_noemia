@@ -20,6 +20,11 @@
     </div>
 
     <button onclick="generateMusic()">Generate Music</button>
+    <audio controls>
+        <source src="../../../generated_audio/audio_0.wav" type ="audio/wav">
+    </audio>
+    
+    <a href="/audio/audio_0.wav"><button> Go to audio </button></a>
 
     <div id="musicPlayer"></div>
 
@@ -39,6 +44,7 @@
                     duration: duration
                 })
             })
+        /*
             .then(response => response.json())
             .then(data => {
                 var audio = document.createElement('audio');
@@ -52,7 +58,7 @@
                 //downloadLink.style.display = "block";
                 document.getElementById('musicPlayer').innerHTML = '';
                 document.getElementById('musicPlayer').appendChild(audio);
-            });
+            }); */
         }
 
             /*.then(response => response.blob())
