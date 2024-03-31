@@ -4,6 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text to Music Generator</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #eee;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #00ff00; /* Changed to green */
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        label {
+            color: #ccc;
+        }
+
+        textarea, input[type="range"], button {
+            background-color: #333;
+            color: #eee;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 5px 0;
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 15px;
+            border-radius: 5px;
+            background-color: #555;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: #00ff00; /* Changed to green */
+            cursor: pointer;
+        }
+
+        button {
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        button:active {
+            background-color: #444;
+        }
+
+        #musicPlayer {
+            margin-top: 20px;
+        }
+
+        audio {
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     <h1>Text to Music Generator 🎵</h1>
@@ -20,11 +92,6 @@
     </div>
 
     <button onclick="generateMusic()">Generate Music</button>
-    <audio controls>
-        <source src="../../../generated_audio/audio_0.wav" type ="audio/wav">
-    </audio>
-    
-    <a href="/audio/audio_0.wav"><button> Go to audio </button></a>
 
     <div id="musicPlayer"></div>
 
@@ -44,7 +111,6 @@
                     duration: duration
                 })
             })
-        /*
             .then(response => response.json())
             .then(data => {
                 var audio = document.createElement('audio');
@@ -58,20 +124,8 @@
                 //downloadLink.style.display = "block";
                 document.getElementById('musicPlayer').innerHTML = '';
                 document.getElementById('musicPlayer').appendChild(audio);
-            }); */
-        }
-
-            /*.then(response => response.blob())
-            .then(blob => {
-                // Create audio element to play generated music
-                var audio = document.createElement('audio');
-                audio.controls = true;
-                var url = URL.createObjectURL(blob);
-                audio.src = "generated_audio/audio_0.wav"
-                document.getElementById('musicPlayer').innerHTML = '';
-                document.getElementById('musicPlayer').appendChild(audio);
             });
-        }*/
+        }
 
         // Update slider value display
         var slider = document.getElementById("duration");
@@ -84,4 +138,3 @@
     </script>
 </body>
 </html>
-
